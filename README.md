@@ -1,7 +1,7 @@
 # GO-ML-tutorials
 Lets get started with Machine Learning
 
-##Things we will be covering in the tutorial series:-
+## Things we will be covering in the tutorial series:-
 
     chapter1:- Python basics, Pandas, Numpy overview
     chapter2:- Getting started with machine learning, its basics, types of learning
