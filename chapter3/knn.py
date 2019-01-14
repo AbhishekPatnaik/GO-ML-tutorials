@@ -6,10 +6,10 @@ import pandas as pd
 import os
 from sklearn.cross_validation import train_test_split
 
-
+# load iris in data folder
 def load_data():
-    iris = pd.read_csv("./chapter3/data/iris.csv")
-    X_train,X_test,y_train,y_test = train_test_split(iris,)
+    iris = pd.read_csv("./data/iris.csv")
+
     return iris
 
 
@@ -20,7 +20,7 @@ def euclideanDistance(data1, data2, length):
         distance += np.square(data1[x] - data2[x])
     return np.sqrt(distance)
 
-def sort(distances):
+def sort_data(distances):
     sort_data = sorted(distances.items(), key=operator.itemgetter(1))
     return sort_data
 
@@ -34,40 +34,35 @@ def calculate_frequecies(neighbors,trainingSet):
             classVotes[response] += 1
         else:
             classVotes[response] = 1
-    #### End of STEP 3.4
     return classVotes
 
 
 
 def knn(training_data,test_data,k_param):
     dist = {}
-    
-    ## defining two variables  
-    test_length = test_data.shape[1]
+    sort = {}
 
-    length_ = test_data.shape[1]
+    length = test_data.shape[1]
     # Now as we have stated in our blog we will be finding euclidean distance between each row of trainin
     # and test dataset
     neighbors = []
     for i in range(len(training_data)):
         # Lets start calculating
-        distance = euclideanDistance(test_data,training_data.loc[i],length)
+        distance = euclideanDistance(test_data,training_data.iloc[i],length)
 
         # storing distances
-        dist[i] = distance
+        dist[i] = distance[0]
 
         # now we need to get the nearest neighbours
-        for neighbours in range(k_param):
-            neighbors.append(sort[i][0])
+    sorted_ = sorted(dist.items(),key=operator.itemgetter(1)) 
+    # extracting top k neighbors
+    
+    for x in range(k_param):
+            neighbors.append(sorted_[x][0])
 
-        classVotes = calculate_frequecies(neighbors)
-        sortedVotes = sorted(classVotes.items(), key=operator.itemgetter(1), reverse=True)
-        return sortedVotes[0][0],neighbors
-
-
-
-
-
+    classVotes = calculate_frequecies(neighbors,training_data)
+    sortedVotes = sorted(classVotes.items(), key=operator.itemgetter(1), reverse=True)
+    return sortedVotes[0][0],neighbors
 
 
 
